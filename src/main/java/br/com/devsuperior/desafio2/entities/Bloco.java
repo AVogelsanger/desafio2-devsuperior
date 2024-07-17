@@ -15,7 +15,7 @@ public class Bloco {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant fim;
     @ManyToOne
-    @JoinColumn(name = "bloco_id")
+    @JoinColumn(name = "atividade_id")
     private Atividade atividade;
 
     public Bloco() { }

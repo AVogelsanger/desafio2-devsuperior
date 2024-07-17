@@ -14,7 +14,7 @@ public class Participante {
     private String nome;
     @Column(unique = true)
     private String email;
-    @OneToMany(mappedBy = "participantes")
+    @ManyToMany(mappedBy = "participantes")
     private Set<Atividade> atividades = new HashSet<>();
 
     public Participante() { }
