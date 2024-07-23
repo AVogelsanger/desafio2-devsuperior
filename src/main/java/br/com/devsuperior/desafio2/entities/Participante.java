@@ -3,6 +3,7 @@ package br.com.devsuperior.desafio2.entities;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 @Entity
 @Table(name = "tb_participante")
@@ -14,7 +15,10 @@ public class Participante {
     private String nome;
     @Column(unique = true)
     private String email;
-    @ManyToMany(mappedBy = "participantes")
+    @ManyToMany
+    @JoinTable(name = "tb_participante_atividade",
+                joinColumns = @JoinColumn(name = "participante_id"),
+                    inverseJoinColumns = @JoinColumn(name = "atividade_id"))
     private Set<Atividade> atividades = new HashSet<>();
 
     public Participante() { }
@@ -51,5 +55,20 @@ public class Participante {
 
     public Set<Atividade> getAtividades() {
         return atividades;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Participante that = (Participante) o;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

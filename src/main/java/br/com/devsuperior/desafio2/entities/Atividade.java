@@ -20,10 +20,7 @@ public class Atividade {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
-    @ManyToMany
-    @JoinTable(name = "tb_atividade_participante",
-                joinColumns = @JoinColumn(name = "atividade_id"),
-                    inverseJoinColumns = @JoinColumn(name = "participante_id"))
+    @ManyToMany(mappedBy = "atividades")
     private Set<Participante> participantes = new HashSet<>();
 
     @OneToMany(mappedBy = "atividade")
@@ -31,11 +28,12 @@ public class Atividade {
 
     public Atividade() { }
 
-    public Atividade(Integer id, String nome, String descricao, Double preco) {
+    public Atividade(Integer id, String nome, String descricao, Double preco, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
+        this.categoria = categoria;
     }
 
     public Integer getId() {
@@ -76,5 +74,28 @@ public class Atividade {
 
     public Set<Bloco> getBlocos() {
         return blocos;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Atividade atividade = (Atividade) o;
+
+        return Objects.equals(id, atividade.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
